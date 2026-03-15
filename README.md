@@ -1,4 +1,4 @@
-# AI Game Playground 🎮🤖
+# AI Game Playground 
 
 An interactive, browser-based repository of classical **Artificial Intelligence Algorithms** modeled through hands-on games. Built with pure Vanilla JS, the playground helps learners visualize how state spaces are searched, backtracked, and optimized in real time.
 
@@ -6,7 +6,7 @@ An interactive, browser-based repository of classical **Artificial Intelligence 
 
 Click here and view: https://anusha-b2803.github.io/AI-Games-with-Algos/
 
-## ⚡ Key Features
+##  Key Features
 
 *   **100% Client-Side**: No servers, no APIs, no transpiles. Runs absolute native and instant anywhere.
 *   **Live Activity Logs**: Sidebar trace Streams demonstrating step-by-step state visits and constraints checks during solving.
@@ -14,7 +14,7 @@ Click here and view: https://anusha-b2803.github.io/AI-Games-with-Algos/
 *   **Unified Dashboard View**: Tabbed layout for buttery smooth navigations switches cleanup workflows.
 
 
-## 🧠 Solvers & Games
+##  Solvers & Games
 
 ### 1. Tic-Tac-Toe AI (**Minimax**)
 *   Uses recursive **Minimax with Alpha-Beta Pruning** sweeps.
@@ -43,7 +43,7 @@ Click here and view: https://anusha-b2803.github.io/AI-Games-with-Algos/
 *   **Logic**: Native ES6+ JavaScript 
 
 
-## 🚀 Getting Started
+##  Getting Started
 
 1. **Clone** the repository:
    ```bash
