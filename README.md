@@ -37,7 +37,7 @@ Click here and view: https://anusha-b2803.github.io/AI-Games-with-Algos/
 *   Supports cycle navigation on multiple discovered solution trees.
 
 
-## 🛠️ Tech Stack
+##  Tech Stack
 *   **Structure**: Semantic HTML5
 *   **Style**: Responsive modular CSS3 
 *   **Logic**: Native ES6+ JavaScript 
