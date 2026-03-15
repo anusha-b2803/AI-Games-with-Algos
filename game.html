@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Lab — AI Playground</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">⬡</div>
+    AI<span>Lab</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">⌂ Home</a></li>
+    <li><a href="game.html" class="active">◈ Games</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle" title="Toggle theme">☀️</button>
+  </div>
+</nav>
+
+<main class="page-content" style="padding-top: 64px; display: flex; min-height: 100vh;">
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="game-sidebar" style="width: 240px; border-right: 1px solid var(--border-color); background: var(--bg-card); padding: 2rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; position: fixed; top: 64px; bottom: 0; z-index: 10;">
+    <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; padding-left: 0.75rem; margin-bottom: 0.5rem;">Select Game</div>
+    
+    <a href="#tictactoe" class="sidebar-link active" data-game="tictactoe">
+      <span class="sidebar-icon">✕○</span> Tic Tac Toe
+    </a>
+    <a href="#sudoku" class="sidebar-link" data-game="sudoku">
+      <span class="sidebar-icon">#</span> Sudoku Solver
+    </a>
+    <a href="#maze" class="sidebar-link" data-game="maze">
+      <span class="sidebar-icon">⊞</span> Maze Pathfinder
+    </a>
+    <a href="#nqueens" class="sidebar-link" data-game="nqueens">
+      <span class="sidebar-icon">♛</span> N-Queens Solver
+    </a>
+  </aside>
+
+  <!-- MAIN GAME AREA -->
+  <div class="game-workspace" style="flex: 1; margin-left: 240px; padding: 2rem; width: calc(100% - 240px);">
+
+    <!-- ============================================
+         TIC TAC TOE VIEW
+         ============================================ -->
+    <div id="view-tictactoe" class="game-view active">
+      <div class="page-header">
+        <h1 class="page-title">Tic Tac <span>Toe AI</span></h1>
+        <p class="page-tagline">Minimax with Alpha-Beta Pruning — The AI evaluates every possible game state</p>
+      </div>
+
+      <div class="game-layout">
+        <div class="game-panel">
+          <div class="game-panel-header">
+            <div class="game-panel-title">Game Board <span>3×3 grid · Minimax</span></div>
+            <span class="badge badge-cyan">Alpha-Beta Pruning</span>
+          </div>
+
+          <div class="status-bar">
+            <div class="status-item"><div class="status-dot active"></div> Status:</div>
+            <span class="status-value" id="ttt-status">✕ X's turn</span>
+            <div style="margin-left:auto;display:flex;gap:1rem;">
+              <div class="status-item">Nodes: <span class="status-value" id="nodes-eval">—</span></div>
+              <div class="status-item">Depth: <span class="status-value" id="tree-depth">0</span></div>
+            </div>
+          </div>
+
+          <div class="controls-row">
+            <div class="mode-selector">
+              <button class="mode-btn" id="mode-pvp" data-mode="pvp">👥 PvP</button>
+              <button class="mode-btn active" id="mode-pvai" data-mode="pvai">🤖 vs AI</button>
+            </div>
+            <div id="ai-settings" style="display:flex;align-items:center;gap:0.5rem;">
+              <span style="font-size:0.75rem;color:var(--text-muted);">Play as:</span>
+              <select id="play-as">
+                <option value="X">✕ X (First)</option>
+                <option value="O">○ O (Second)</option>
+              </select>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="btn-undo">↩ Undo</button>
+            <button class="btn btn-secondary btn-sm" id="btn-reset">↺ Reset</button>
+          </div>
+
+          <div class="score-display">
+            <div class="score-item"><div class="score-num" id="score-x" style="color:var(--accent-cyan)">0</div><div class="score-label">✕ Player X</div></div>
+            <div class="score-sep"></div>
+            <div class="score-item"><div class="score-num" id="score-draw" style="color:var(--text-muted)">0</div><div class="score-label">Draws</div></div>
+            <div class="score-sep"></div>
+            <div class="score-item"><div class="score-num" id="score-o" style="color:var(--accent-purple)">0</div><div class="score-label">○ Player O</div></div>
+          </div>
+
+          <div class="board-wrap">
+            <div id="ttt-board" class="ttt-board"></div>
+            <div class="thinking-overlay" id="thinking-overlay">
+              <div class="thinking-spinner"></div>
+              <div class="thinking-text">AI thinking</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-panel">
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">🧠 Minimax Algorithm</div></div>
+            <div class="info-card-body"><p>Minimax builds a game tree and picks the move leading to the best outcome, assuming both players play optimally.</p></div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">✂️ Alpha-Beta Pruning</div></div>
+            <div class="info-card-body"><p>Cuts branches that cannot affect the final decision, reducing processing time significantly.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SUDOKU VIEW
+         ============================================ -->
+    <div id="view-sudoku" class="game-view">
+      <div class="page-header">
+        <h1 class="page-title">Sudoku <span>Solver</span></h1>
+        <p class="page-tagline">Backtracking Algorithm — Systematic exploration of possibilities</p>
+      </div>
+
+      <div class="game-layout">
+        <div class="game-panel">
+          <div class="game-panel-header">
+            <div class="game-panel-title">9×9 Grid <span>Fill inputs and solve</span></div>
+            <span class="badge badge-blue">Constraint Satisfaction</span>
+          </div>
+
+          <div class="status-bar">
+            <div class="status-item"><div class="status-dot active"></div> Status:</div>
+            <span class="status-value" id="sudoku-status">Ready</span>
+          </div>
+
+          <div class="controls-row" style="flex-wrap:wrap;gap:0.5rem;">
+            <button class="btn btn-primary btn-sm" id="btn-solve">▶ Solve</button>
+            <button class="btn btn-warning btn-sm" id="btn-stop">⏹ Stop</button>
+            <button class="btn btn-success btn-sm" id="btn-sample">🎲 Next Sample</button>
+            <button class="btn btn-secondary btn-sm" id="btn-clear">✕ Clear</button>
+            <div class="speed-control">
+              <label>Speed:</label>
+              <input type="range" id="speed-slider" min="10" max="1000" value="900" style="width:80px;">
+              <span id="speed-label" style="font-size:0.7rem;color:var(--text-muted);">Normal</span>
+            </div>
+          </div>
+
+          <div id="sudoku-grid" class="sudoku-grid"></div>
+
+          <div class="sudoku-stats">
+            <div class="stat-box"><div class="val" id="sudoku-steps">0</div><div class="lbl">Steps</div></div>
+            <div class="stat-box"><div class="val" id="sudoku-backtracks">0</div><div class="lbl">Backtracks</div></div>
+            <div class="stat-box">
+              <div class="val" id="sudoku-filled">0/81</div>
+              <div class="lbl">Filled</div>
+              <div style="height:4px;background:var(--border-color);border-radius:2px;margin-top:4px;overflow:hidden;">
+                <div id="fill-progress" style="height:100%;background:var(--accent-cyan);width:0%;transition:width 0.3s;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-panel">
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">📋 Activity Log</div></div>
+            <div class="info-card-body" style="max-height: 220px; overflow-y: auto; font-family: var(--font-code); font-size: 0.72rem; padding: 0.75rem;" id="sudoku-log">
+              <div style="color: var(--text-muted);">Status: Ready designed.</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">↩️ Backtracking</div></div>
+            <div class="info-card-body"><p>Explores numbers 1-9. If a contradiction is found, it "backtracks" and tries the next number.</p></div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">🧩 Constraint Satisfaction</div></div>
+            <div class="info-card-body">
+              <p>Sudoku is modeled as a CSP with:</p>
+              <ul style="padding-left:1rem; font-size:0.78rem; color:var(--text-secondary); line-height:1.6; margin-top:0.4rem; display:flex; flex-direction:column; gap:4px;">
+                <li><strong>Variables (X)</strong>: 81 empty grid cells.</li>
+                <li><strong>Domains (D)</strong>: Numbers {1,2,..,9} for each.</li>
+                <li><strong>Constraints (C)</strong>: All numbers in any Row, Column, or 3×3 Box must be unique.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         MAZE VIEW
+         ============================================ -->
+    <div id="view-maze" class="game-view">
+      <div class="page-header">
+        <h1 class="page-title">Maze <span>Pathfinder</span></h1>
+        <p class="page-tagline">A* Search Algorithm — Optimal pathfinding with Manhattan distance heuristic</p>
+      </div>
+
+      <div class="game-layout">
+        <div class="game-panel">
+          <div class="game-panel-header">
+            <div class="game-panel-title">Maze Canvas <span>Interactive grid</span></div>
+            <span class="badge badge-green">Manhattan Heuristic</span>
+          </div>
+
+          <div class="status-bar">
+            <div class="status-item"><div class="status-dot active"></div> Status:</div>
+            <span class="status-value" id="maze-status-text">Draw walls and solve</span>
+          </div>
+
+          <div class="controls-row" style="gap:0.5rem;margin-bottom:0.75rem;">
+            <button class="tool-btn active" id="tool-wall">🧱 Wall</button>
+            <button class="tool-btn" id="tool-erase">🧹 Erase</button>
+            <button class="tool-btn" id="tool-start">🟢 Start</button>
+            <button class="tool-btn" id="tool-end">🟡 End</button>
+          </div>
+
+          <div class="controls-row" style="flex-wrap:wrap;gap:0.5rem;">
+            <button class="btn btn-primary btn-sm" id="btn-solve-maze">▶ Solve</button>
+            <button class="btn btn-warning btn-sm" id="btn-stop-maze">⏹ Stop</button>
+            <button class="btn btn-success btn-sm" id="btn-gen-maze">⬡ Generate</button>
+            <button class="btn btn-ghost btn-sm" id="btn-clear-maze">↺ Clear Path</button>
+            <button class="btn btn-secondary btn-sm" id="btn-reset-maze">✕ Reset</button>
+            <input type="range" id="maze-speed" min="10" max="200" value="100" style="width:70px;">
+            <select id="maze-size" style="font-size:0.75rem;padding:4px 8px;">
+              <option value="small">Small</option>
+              <option value="medium" selected>Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
+
+          <!-- CANVAS WRAPPER (Restored form maze.html for correct sizing) -->
+          <div style="overflow-x:auto; margin-top:1rem; width:100%; display:flex; justify-content:center;">
+            <canvas id="maze-canvas"></canvas>
+          </div>
+
+          <div class="sudoku-stats">
+            <div class="stat-box"><div class="val" id="maze-visited">0</div><div class="lbl">Visited</div></div>
+            <div class="stat-box"><div class="val" id="maze-pathlen">—</div><div class="lbl">Path</div></div>
+            <div class="stat-box"><div class="val" id="maze-time">—</div><div class="lbl">Time</div></div>
+          </div>
+        </div><!-- game-panel -->
+
+        <div class="side-panel">
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">📋 Activity Log</div></div>
+            <div class="info-card-body" style="max-height: 220px; overflow-y: auto; font-family: var(--font-code); font-size: 0.72rem; padding: 0.75rem;" id="maze-log">
+              <div style="color: var(--text-muted);">Status: Draw walls or generate.</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">⭐ A* Search</div></div>
+            <div class="info-card-body"><p>Combines actual cost from start with a heuristic estimate (Manhattan distance) to find the shortest path efficiently.</p></div>
+          </div>
+        </div>
+
+      </div><!-- game-layout -->
+    </div>
+
+    <!-- ============================================
+         N-QUEENS VIEW
+         ============================================ -->
+    <div id="view-nqueens" class="game-view">
+      <div class="page-header">
+        <h1 class="page-title">N-Queens <span>Solver</span></h1>
+        <p class="page-tagline">Constraint Checking Backtracking</p>
+      </div>
+
+      <div class="game-layout">
+        <div class="game-panel">
+          <div class="game-panel-header">
+            <div class="game-panel-title">Chessboard</div>
+            <span class="badge badge-purple">Backtracking</span>
+          </div>
+
+          <div class="status-bar">
+            <div class="status-item"><div class="status-dot active"></div> Status:</div>
+            <span class="status-value" id="queens-status">Ready</span>
+          </div>
+
+          <div class="controls-row" style="flex-wrap:wrap;gap:0.5rem;">
+            <select id="board-size">
+              <option value="4">4 Queens</option>
+              <option value="6">6 Queens</option>
+              <option value="8" selected>8 Queens</option>
+            </select>
+            <button class="btn btn-primary btn-sm" id="btn-solve-queens">▶ Solve</button>
+            <button class="btn btn-warning btn-sm" id="btn-stop-queens">⏹ Stop</button>
+            <button class="btn btn-success btn-sm" id="btn-all-solutions">◈ All Solutions</button>
+            <button class="btn btn-secondary btn-sm" id="btn-reset-queens">✕ Reset</button>
+            <input type="range" id="queens-speed" min="10" max="500" value="250" style="width:70px;">
+          </div>
+
+          <div id="queens-board" class="queens-board" style="margin-top:1rem;"></div>
+
+          <!-- SOLUTION NAVIGATION -->
+          <div class="solution-nav-wrap" style="display:flex; justify-content:center; margin-top:1rem;">
+            <div id="solution-nav" style="display:none; align-items:center; gap:0.5rem;">
+              <button class="btn btn-ghost btn-sm" id="btn-prev-sol">← Prev</button>
+              <span style="font-family:var(--font-code);font-size:0.8rem;color:var(--text-secondary);" id="sol-index">1 / 1</span>
+              <button class="btn btn-ghost btn-sm" id="btn-next-sol">Next →</button>
+            </div>
+          </div>
+
+          <div class="sudoku-stats">
+            <div class="stat-box"><div class="val" id="queens-steps">0</div><div class="lbl">Steps</div></div>
+            <div class="stat-box"><div class="val" id="queens-backtracks">0</div><div class="lbl">Backtracks</div></div>
+            <div class="stat-box"><div class="val" id="solutions-count">—</div><div class="lbl">Solutions</div></div>
+          </div>
+        </div><!-- game-panel -->
+
+        <div class="side-panel">
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">📋 Activity Log</div></div>
+            <div class="info-card-body" style="max-height: 220px; overflow-y: auto; font-family: var(--font-code); font-size: 0.72rem; padding: 0.75rem;" id="queens-log">
+              <div style="color: var(--text-muted);">Status: Ready.</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-header"><div class="info-card-title">↩️ Backtracking</div></div>
+            <div class="info-card-body"><p>Tests queens row by row. If there is a conflict, it reverses (backtracks) and tests another position.</p></div>
+          </div>
+        </div>
+
+      </div><!-- game-layout -->
+    </div>
+
+  </div>
+
+</main>
+
+<script src="js/main.js"></script>
+<script src="js/tictactoe.js"></script>
+<script src="js/sudoku.js"></script>
+<script src="js/maze.js"></script>
+<script src="js/nqueens.js"></script>
+
+<!-- SIDEBAR LINK LOGIC -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const links = document.querySelectorAll('.sidebar-link');
+  const views = document.querySelectorAll('.game-view');
+
+  function showGame(gameId) {
+    views.forEach(v => v.classList.remove('active'));
+    links.forEach(l => l.classList.remove('active'));
+
+    const view = document.getElementById(`view-${gameId}`);
+    const link = document.querySelector(`.sidebar-link[data-game="${gameId}"]`);
+
+    if (view && link) {
+      view.classList.add('active');
+      link.classList.add('active');
+
+      // Reset all games when switching tabs to clear previous states
+      if (typeof TicTacToe !== 'undefined' && TicTacToe.reset) TicTacToe.reset();
+      if (typeof Sudoku !== 'undefined' && Sudoku.reset) Sudoku.reset();
+      if (typeof Maze !== 'undefined' && Maze.reset) Maze.reset();
+      if (typeof NQueens !== 'undefined' && NQueens.reset) NQueens.reset();
+      
+      // Clear logs into default placeholders too
+      ['sudoku', 'maze', 'queens'].forEach(id => {
+        const log = document.getElementById(`${id}-log`);
+        if (log) log.innerHTML = `<div style="color: var(--text-muted);">Status: Ready.</div>`;
+      });
+
+      // Delay resize slightly so display:block propagates dimensions
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 50);
+    }
+  }
+
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const game = link.dataset.game;
+      showGame(game);
+      window.location.hash = game;
+    });
+  });
+
+  // Handle Initial Hash
+  const hash = window.location.hash.substring(1);
+  if (hash) {
+    showGame(hash);
+  } else {
+    showGame('tictactoe'); // default
+  }
+});
+</script>
+
+<style>
+.game-view { display: none; }
+.game-view.active { display: block; }
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.sidebar-link:hover {
+  background: var(--bg-glass);
+  color: var(--text-primary);
+}
+.sidebar-link.active {
+  background: rgba(6, 182, 212, 0.08);
+  color: var(--accent-cyan);
+  font-weight: 600;
+  border-left: 3px solid var(--accent-cyan);
+}
+.sidebar-icon {
+  width: 20px;
+  text-align: center;
+  font-family: var(--font-display);
+}
+</style>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N-Queens Solver — AI Game Playground</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="nav-logo-icon">⬡</div>
+    AI<span>Lab</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../index.html#games">Games</a></li>
+    <li><a href="../index.html#about">About</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle">☀️</button>
+  </div>
+</nav>
+
+<main class="page-content">
+
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="../index.html#games">Games</a>
+      <span class="sep">/</span>
+      <span class="current">N-Queens</span>
+    </div>
+    <h1 class="page-title">N-Queens <span>Solver</span></h1>
+    <p class="page-tagline">Backtracking with Constraint Checking — Watch queens placed and removed in real time</p>
+  </div>
+
+  <div class="game-layout">
+
+    <!-- MAIN PANEL -->
+    <div class="game-panel fade-in-up">
+      <div class="game-panel-header">
+        <div class="game-panel-title">
+          Chessboard
+          <span>N×N board · Backtracking</span>
+        </div>
+        <span class="badge badge-purple">Conflict Detection</span>
+      </div>
+
+      <!-- STATUS -->
+      <div class="status-bar">
+        <div class="status-item">
+          <div class="status-dot active"></div>
+          Status:
+        </div>
+        <span class="status-value" id="queens-status">Ready</span>
+        <div style="margin-left:auto;display:flex;gap:1rem;">
+          <div class="status-item">Solutions: <span class="status-value" id="solutions-count">—</span></div>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="controls-row" style="flex-wrap:wrap;gap:0.5rem;">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:0.75rem;color:var(--text-muted);">Board size:</span>
+          <select id="board-size">
+            <option value="4">4 Queens</option>
+            <option value="5">5 Queens</option>
+            <option value="6">6 Queens</option>
+            <option value="7">7 Queens</option>
+            <option value="8" selected>8 Queens</option>
+            <option value="10">10 Queens</option>
+            <option value="12">12 Queens</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm" id="btn-solve-queens">▶ Animate Solve</button>
+        <button class="btn btn-warning btn-sm" id="btn-stop-queens">⏹ Stop</button>
+        <button class="btn btn-success btn-sm" id="btn-all-solutions">◈ All Solutions</button>
+        <button class="btn btn-secondary btn-sm" id="btn-reset-queens">✕ Reset</button>
+
+        <div class="speed-control">
+          <label>Speed:</label>
+          <input type="range" id="queens-speed" min="10" max="500" value="250" style="width:70px;">
+        </div>
+      </div>
+
+      <!-- BOARD -->
+      <div style="overflow-x:auto;display:flex;justify-content:center;padding:1rem 0;">
+        <div id="queens-board" class="queens-board"></div>
+      </div>
+
+      <!-- SOLUTION NAVIGATION -->
+      <div class="solution-nav-wrap">
+        <div id="solution-nav" style="display:none; align-items:center; gap:0.5rem;">
+          <button class="btn btn-ghost btn-sm" id="btn-prev-sol">← Prev</button>
+          <span style="font-family:var(--font-code);font-size:0.8rem;color:var(--text-secondary);" id="sol-index">1 / 1</span>
+          <button class="btn btn-ghost btn-sm" id="btn-next-sol">Next →</button>
+        </div>
+      </div>
+
+      <!-- LEGEND -->
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem;font-size:0.75rem;color:var(--text-muted);">
+        <span style="display:flex;align-items:center;gap:6px;">
+          <span style="color:var(--accent-cyan);font-size:1rem;">♛</span> Placed queen
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;">
+          <span style="color:var(--accent-red);font-size:1rem;">♛</span> Conflict detected
+        </span>
+        <span style="display:flex;align-items:center;gap:6px;">
+          <span style="width:14px;height:14px;background:rgba(6,182,212,0.05);border-radius:2px;display:inline-block;border:1px solid rgba(6,182,212,0.15);"></span> Row being explored
+        </span>
+      </div>
+
+      <!-- STATS -->
+      <div class="sudoku-stats" style="margin-top:1rem;">
+        <div class="stat-box">
+          <div class="val" id="queens-steps">0</div>
+          <div class="lbl">Steps</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="queens-backtracks">0</div>
+          <div class="lbl">Backtracks</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="solutions-count">—</div>
+          <div class="lbl">Solutions</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">♛</span> N-Queens Problem</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>Place N chess queens on an N×N board so that <strong>no two queens attack each other</strong> — they cannot share the same row, column, or diagonal.</p>
+          <p>The 8-Queens puzzle has <strong>92 solutions</strong>. For N=1: trivially 1. For N=2,3: no solutions!</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">↩️</span> Backtracking Approach</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>We place one queen per row, scanning columns left to right:</p>
+          <div class="code-block">isSafe(board, row, col):
+  check same column ↑
+  check left diagonal ↗
+  check right diagonal ↖
+  all clear → safe to place</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">📋</span> Algorithm Steps</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <ol class="algo-steps">
+            <li>Start at row 0, try each column</li>
+            <li>Check if placement is safe (no attacks)</li>
+            <li>If safe: place queen, advance to next row</li>
+            <li>If conflict: highlight and skip this column</li>
+            <li>If no column works in this row: backtrack to previous row</li>
+            <li>Remove queen from previous row, try next column</li>
+            <li>Continue until all N queens placed (solution!)</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">📊</span> Solutions Count</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <div class="complexity-row">
+            <span class="complexity-label">N = 1</span>
+            <span class="complexity-value">1 solution</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">N = 4</span>
+            <span class="complexity-value">2 solutions</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">N = 8</span>
+            <span class="complexity-value">92 solutions</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">N = 10</span>
+            <span class="complexity-value">724 solutions</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">N = 12</span>
+            <span class="complexity-value">14,200 solutions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">⏱</span> Complexity</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <div class="complexity-row">
+            <span class="complexity-label">Brute force</span>
+            <span class="complexity-value">O(N^N)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">With backtracking</span>
+            <span class="complexity-value">O(N!)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Space</span>
+            <span class="complexity-value">O(N)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>AI Game Playground &nbsp;·&nbsp; <a href="../index.html">← Back to Home</a></p>
+</footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/nqueens.js"></script>
+</body>
+</html>

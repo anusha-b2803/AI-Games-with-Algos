@@ -1,0 +1,366 @@
+/* ============================================
+   AI GAME PLAYGROUND - ANIMATIONS
+   ============================================ */
+
+/* ============ KEYFRAMES ============ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(24px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.9); }
+}
+
+@keyframes ripple {
+  0%   { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(6, 182, 212, 0.2); }
+  50%       { box-shadow: 0 0 25px rgba(6, 182, 212, 0.5); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes popIn {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes shakeX {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px); }
+}
+
+@keyframes winnerGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(16,185,129,0.3); }
+  50%       { box-shadow: 0 0 30px rgba(16,185,129,0.7); }
+}
+
+@keyframes queenDrop {
+  0%   { transform: translateY(-30px) scale(0.7); opacity: 0; }
+  60%  { transform: translateY(4px) scale(1.05); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes solveFlash {
+  0%   { background: rgba(16,185,129,0.0); }
+  50%  { background: rgba(16,185,129,0.3); }
+  100% { background: rgba(16,185,129,0.08); }
+}
+
+@keyframes pathDraw {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes nodeVisit {
+  0%   { transform: scale(0.8); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes particleFloat {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.8; }
+  50%  { opacity: 0.3; }
+  100% { transform: translateY(-200px) translateX(var(--tx)) rotate(360deg); opacity: 0; }
+}
+
+@keyframes countUp {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes borderTrace {
+  0%   { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+/* ============ PARTICLE SYSTEM ============ */
+.particles-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  opacity: 0;
+  animation: particleFloat 6s ease-in infinite;
+  --tx: 0px;
+}
+
+/* ============ GEOMETRIC SHAPES (Hero) ============ */
+.geo-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.geo-shape {
+  position: absolute;
+  border: 1px solid rgba(6, 182, 212, 0.08);
+  border-radius: 4px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.geo-shape:nth-child(1) {
+  width: 60px; height: 60px;
+  top: 15%; left: 8%;
+  transform: rotate(15deg);
+  animation-delay: 0s;
+  animation-duration: 7s;
+}
+
+.geo-shape:nth-child(2) {
+  width: 40px; height: 40px;
+  top: 70%; left: 5%;
+  transform: rotate(-20deg);
+  animation-delay: 1s;
+  animation-duration: 9s;
+  border-color: rgba(139, 92, 246, 0.08);
+}
+
+.geo-shape:nth-child(3) {
+  width: 80px; height: 80px;
+  top: 20%; right: 8%;
+  transform: rotate(45deg);
+  animation-delay: 2s;
+  animation-duration: 8s;
+  border-color: rgba(59, 130, 246, 0.08);
+}
+
+.geo-shape:nth-child(4) {
+  width: 50px; height: 50px;
+  top: 65%; right: 12%;
+  transform: rotate(-10deg);
+  animation-delay: 0.5s;
+  animation-duration: 10s;
+}
+
+.geo-shape:nth-child(5) {
+  width: 30px; height: 30px;
+  top: 40%; left: 15%;
+  transform: rotate(30deg);
+  animation-delay: 3s;
+  animation-duration: 6s;
+  border-color: rgba(16, 185, 129, 0.08);
+}
+
+/* ============ PAGE TRANSITIONS ============ */
+.page-transition-enter {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* ============ GAME BOARD ANIMATIONS ============ */
+
+/* Tic Tac Toe */
+.cell-X {
+  animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  color: var(--accent-cyan) !important;
+}
+
+.cell-O {
+  animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  color: var(--accent-purple) !important;
+}
+
+.win-cell {
+  animation: winnerGlow 1s ease infinite;
+}
+
+.board-shake {
+  animation: shakeX 0.4s ease;
+}
+
+/* N-Queens */
+.queen-placed {
+  animation: queenDrop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.queen-conflict {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  animation: shakeX 0.3s ease;
+}
+
+/* Sudoku Solving */
+.cell-solving {
+  background: rgba(6, 182, 212, 0.15) !important;
+  animation: glow-pulse 0.5s ease;
+}
+
+.cell-solved {
+  animation: solveFlash 0.3s ease forwards;
+}
+
+.cell-backtrack {
+  background: rgba(239, 68, 68, 0.12) !important;
+  transition: background 0.1s ease;
+}
+
+.cell-given {
+  background: rgba(139, 92, 246, 0.1) !important;
+}
+
+/* Maze cells */
+.maze-cell-visited {
+  animation: nodeVisit 0.15s ease forwards;
+}
+
+.maze-cell-path {
+  animation: popIn 0.2s ease forwards;
+}
+
+/* ============ STAGGER ANIMATIONS ============ */
+.stagger-children > *:nth-child(1) { animation-delay: 0.0s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.08s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.16s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.24s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.32s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.40s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.48s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.56s; }
+
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* ============ RIPPLE EFFECT ============ */
+.ripple-container { position: relative; overflow: hidden; }
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  width: 8px;
+  height: 8px;
+  transform: scale(0);
+  animation: ripple 0.5s linear;
+  pointer-events: none;
+}
+
+/* ============ CURSOR BLINK ============ */
+.cursor-blink::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: var(--accent-cyan);
+  margin-left: 1px;
+}
+
+/* ============ ANIMATED GRADIENT BACKGROUND ============ */
+.animated-gradient {
+  background: linear-gradient(270deg, #050a0e, #0a1628, #061018, #05080c);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* ============ PROGRESS BAR ============ */
+.progress-bar-container {
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+}
+
+/* ============ LOADING DOTS ============ */
+.loading-dots {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.loading-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  animation: pulse 1.4s ease infinite;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ============ HOVER EFFECTS ============ */
+.hover-lift { transition: transform var(--transition-mid); }
+.hover-lift:hover { transform: translateY(-4px); }
+
+.hover-glow {
+  transition: box-shadow var(--transition-mid);
+}
+.hover-glow:hover { box-shadow: var(--glow-cyan); }
+
+/* ============ COUNT ANIMATION ============ */
+.count-anim { animation: countUp 0.3s ease; }

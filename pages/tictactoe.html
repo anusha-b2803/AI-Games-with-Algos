@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe AI — AI Game Playground</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="nav-logo-icon">⬡</div>
+    AI<span>Lab</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../index.html#games">Games</a></li>
+    <li><a href="../index.html#about">About</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle" title="Toggle theme">☀️</button>
+  </div>
+</nav>
+
+<main class="page-content">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="../index.html#games">Games</a>
+      <span class="sep">/</span>
+      <span class="current">Tic Tac Toe</span>
+    </div>
+    <h1 class="page-title">Tic Tac <span>Toe AI</span></h1>
+    <p class="page-tagline">Minimax with Alpha-Beta Pruning — The AI evaluates every possible game state</p>
+  </div>
+
+  <!-- GAME LAYOUT -->
+  <div class="game-layout">
+
+    <!-- MAIN GAME PANEL -->
+    <div class="game-panel fade-in-up">
+      <div class="game-panel-header">
+        <div class="game-panel-title">
+          Game Board
+          <span>3×3 grid · Minimax AI</span>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <span class="badge badge-cyan">Alpha-Beta Pruning</span>
+        </div>
+      </div>
+
+      <!-- STATUS BAR -->
+      <div class="status-bar">
+        <div class="status-item">
+          <div class="status-dot active" id="game-indicator"></div>
+          Status:
+        </div>
+        <span class="status-value" id="ttt-status">✕ X's turn</span>
+        <div style="margin-left:auto;display:flex;gap:1rem;">
+          <div class="status-item">
+            Nodes: <span class="status-value" id="nodes-eval">—</span>
+          </div>
+          <div class="status-item">
+            Depth: <span class="status-value" id="tree-depth">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="controls-row">
+        <div class="mode-selector">
+          <button class="mode-btn" id="mode-pvp" data-mode="pvp">👥 PvP</button>
+          <button class="mode-btn active" id="mode-pvai" data-mode="pvai">🤖 vs AI</button>
+        </div>
+
+        <div id="ai-settings" style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="font-size:0.75rem;color:var(--text-muted);">Play as:</span>
+          <select id="play-as">
+            <option value="X">✕ X (First)</option>
+            <option value="O">○ O (Second)</option>
+          </select>
+        </div>
+
+        <button class="btn btn-ghost btn-sm" id="btn-undo">↩ Undo</button>
+        <button class="btn btn-secondary btn-sm" id="btn-reset">↺ Reset</button>
+      </div>
+
+      <!-- SCORE -->
+      <div class="score-display">
+        <div class="score-item">
+          <div class="score-num" id="score-x" style="color:var(--accent-cyan)">0</div>
+          <div class="score-label">✕ Player X</div>
+        </div>
+        <div class="score-sep"></div>
+        <div class="score-item">
+          <div class="score-num" id="score-draw" style="color:var(--text-muted)">0</div>
+          <div class="score-label">Draws</div>
+        </div>
+        <div class="score-sep"></div>
+        <div class="score-item">
+          <div class="score-num" id="score-o" style="color:var(--accent-purple)">0</div>
+          <div class="score-label">○ Player O</div>
+        </div>
+      </div>
+
+      <!-- BOARD -->
+      <div class="board-wrap" style="position:relative;">
+        <div id="ttt-board" class="ttt-board"></div>
+        <div class="thinking-overlay" id="thinking-overlay">
+          <div class="thinking-spinner"></div>
+          <div class="thinking-text">
+            <span class="loading-dots">
+              <span></span><span></span><span></span>
+            </span>
+            AI thinking
+          </div>
+        </div>
+      </div>
+
+      <!-- AI STATS -->
+      <div class="ai-stats-grid">
+        <div class="ai-stat-box">
+          <div class="ai-stat-val" id="nodes-eval">—</div>
+          <div class="ai-stat-label">Nodes Evaluated</div>
+        </div>
+        <div class="ai-stat-box">
+          <div class="ai-stat-val" id="tree-depth">0</div>
+          <div class="ai-stat-label">Moves Played</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+
+      <!-- Algorithm Info -->
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">🧠</span> Minimax Algorithm</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>Minimax is a <strong>decision-making algorithm</strong> used in two-player games. It assumes both players play optimally — the AI maximizes its own score while the opponent minimizes it.</p>
+          <p>The algorithm builds a <strong>game tree</strong> exploring all possible moves to a terminal state (win/draw/lose), then picks the move leading to the best outcome.</p>
+        </div>
+      </div>
+
+      <!-- Alpha-Beta -->
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">✂️</span> Alpha-Beta Pruning</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>Alpha-Beta pruning <strong>cuts branches</strong> in the game tree that cannot affect the final decision. If the current branch is already worse than a known option, skip it.</p>
+          <div class="code-block">α = best for maximizer
+β = best for minimizer
+if β ≤ α → prune branch ✂️</div>
+          <p style="margin-top:0.75rem;">In the best case, pruning reduces nodes from <code>O(b<sup>d</sup>)</code> to <code>O(b<sup>d/2</sup>)</code>.</p>
+        </div>
+      </div>
+
+      <!-- Algorithm Steps -->
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">📋</span> Algorithm Steps</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <ol class="algo-steps">
+            <li>Generate all possible moves from current state</li>
+            <li>For each move, recursively evaluate the game tree</li>
+            <li>Alternate between maximizing (AI) and minimizing (opponent)</li>
+            <li>Apply alpha-beta cutoffs to prune dead branches</li>
+            <li>Return the move with the highest minimax score</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Complexity -->
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">⏱</span> Complexity</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <div class="complexity-row">
+            <span class="complexity-label">Minimax Time</span>
+            <span class="complexity-value">O(b^d)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">With Alpha-Beta</span>
+            <span class="complexity-value">O(b^(d/2))</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Space</span>
+            <span class="complexity-value">O(d)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Branching factor (b)</span>
+            <span class="complexity-value">≤ 9</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Max depth (d)</span>
+            <span class="complexity-value">9</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="info-card collapsed">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">💡</span> Tips</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>The AI is <strong>unbeatable</strong> with perfect play. You can only draw, never win. Try to force a draw by playing center and corners.</p>
+          <p>Switch to <strong>PvP mode</strong> to play against a friend. Use Undo to take back moves and experiment.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>AI Game Playground &nbsp;·&nbsp; <a href="../index.html">← Back to Home</a></p>
+</footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/tictactoe.js"></script>
+</body>
+</html>

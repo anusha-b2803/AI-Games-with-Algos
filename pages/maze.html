@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maze Pathfinder — AI Game Playground</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="nav-logo-icon">⬡</div>
+    AI<span>Lab</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../index.html#games">Games</a></li>
+    <li><a href="../index.html#about">About</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle">☀️</button>
+  </div>
+</nav>
+
+<main class="page-content">
+
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="../index.html#games">Games</a>
+      <span class="sep">/</span>
+      <span class="current">Maze Pathfinder</span>
+    </div>
+    <h1 class="page-title">Maze <span>Pathfinder</span></h1>
+    <p class="page-tagline">A* Search Algorithm — Optimal pathfinding with Manhattan distance heuristic</p>
+  </div>
+
+  <div class="game-layout">
+
+    <!-- MAIN PANEL -->
+    <div class="game-panel fade-in-up">
+      <div class="game-panel-header">
+        <div class="game-panel-title">
+          Maze Canvas
+          <span>Interactive grid · A* algorithm</span>
+        </div>
+        <span class="badge badge-green">Manhattan Heuristic</span>
+      </div>
+
+      <!-- STATUS -->
+      <div class="status-bar">
+        <div class="status-item">
+          <div class="status-dot active"></div>
+          Status:
+        </div>
+        <span class="status-value" id="maze-status-text">Draw walls, set start & end, then solve</span>
+        <div style="margin-left:auto;display:flex;gap:1rem;">
+          <div class="status-item">Visited: <span class="status-value" id="maze-visited">0</span></div>
+          <div class="status-item">Path: <span class="status-value" id="maze-pathlen">—</span></div>
+        </div>
+      </div>
+
+      <!-- TOOL BUTTONS -->
+      <div class="controls-row" style="flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem;">
+        <button class="tool-btn active" id="tool-wall">🧱 Wall</button>
+        <button class="tool-btn" id="tool-erase">🧹 Erase</button>
+        <button class="tool-btn" id="tool-start">🟢 Start</button>
+        <button class="tool-btn" id="tool-end">🟡 End</button>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="controls-row" style="flex-wrap:wrap;gap:0.5rem;">
+        <button class="btn btn-primary btn-sm" id="btn-solve-maze">▶ Solve A*</button>
+        <button class="btn btn-warning btn-sm" id="btn-stop-maze">⏹ Stop</button>
+        <button class="btn btn-success btn-sm" id="btn-gen-maze">⬡ Generate Maze</button>
+        <button class="btn btn-ghost btn-sm" id="btn-clear-maze">↺ Clear Path</button>
+        <button class="btn btn-secondary btn-sm" id="btn-reset-maze">✕ Reset All</button>
+
+        <div class="speed-control">
+          <label>Speed:</label>
+          <input type="range" id="maze-speed" min="10" max="200" value="60" style="width:70px;">
+        </div>
+
+        <select id="maze-size" style="font-size:0.75rem;padding:6px 10px;">
+          <option value="small">Small (15×20)</option>
+          <option value="medium" selected>Medium (20×30)</option>
+          <option value="large">Large (25×40)</option>
+        </select>
+      </div>
+
+      <!-- CANVAS -->
+      <div style="overflow-x:auto;margin-top:0.5rem;">
+        <canvas id="maze-canvas"></canvas>
+      </div>
+
+      <!-- LEGEND -->
+      <div class="legend-grid" style="margin-top:1rem;">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#10b981;"></div>
+          Start (S)
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f59e0b;"></div>
+          End (E)
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#1e3a5f;"></div>
+          Wall
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#06b6d4;"></div>
+          Shortest Path
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#1e4a6a;"></div>
+          Visited nodes
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0e3a55;"></div>
+          Open set
+        </div>
+      </div>
+
+      <!-- STATS ROW -->
+      <div class="sudoku-stats" style="margin-top:1rem;">
+        <div class="stat-box">
+          <div class="val" id="maze-visited">0</div>
+          <div class="lbl">Visited</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="maze-pathlen">—</div>
+          <div class="lbl">Path Length</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="maze-time">—</div>
+          <div class="lbl">Time</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">⭐</span> A* Search Algorithm</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>A* (A-star) finds the <strong>shortest path</strong> from start to goal. It combines Dijkstra's algorithm with a heuristic to guide the search efficiently.</p>
+          <div class="code-block">f(n) = g(n) + h(n)
+
+g(n) = cost from start to n
+h(n) = heuristic: Manhattan dist
+f(n) = estimated total cost</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">📐</span> Manhattan Heuristic</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>Manhattan distance counts horizontal + vertical steps between two grid points:</p>
+          <div class="code-block">h(n) = |n.x - goal.x|
+      + |n.y - goal.y|</div>
+          <p style="margin-top:0.75rem;">It's <strong>admissible</strong> (never overestimates) so A* is guaranteed to find the optimal path.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">📋</span> Algorithm Steps</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <ol class="algo-steps">
+            <li>Add start node to the open set (priority queue)</li>
+            <li>Pop node with lowest f(n) from open set</li>
+            <li>If it's the goal: reconstruct and return path</li>
+            <li>Add to closed set (already explored)</li>
+            <li>For each valid neighbor: compute g and h scores</li>
+            <li>If neighbor not in closed set or has better g: update and add to open set</li>
+            <li>Repeat until goal found or open set empty</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">⏱</span> Complexity</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <div class="complexity-row">
+            <span class="complexity-label">Time</span>
+            <span class="complexity-value">O(E log V)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Space</span>
+            <span class="complexity-value">O(V)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Optimal?</span>
+            <span class="complexity-value">Yes ✓</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Complete?</span>
+            <span class="complexity-value">Yes ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card collapsed">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">🎮</span> How to Use</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p><strong>Draw walls</strong> by clicking/dragging on the grid. <strong>Generate Maze</strong> creates a random solvable maze using DFS.</p>
+          <p>Use the <strong>tool buttons</strong> to switch between wall/erase/start/end placement modes. Then click <strong>Solve A*</strong>.</p>
+          <p>Adjust <strong>speed</strong> to see exploration in slow motion or run it instantly.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>AI Game Playground &nbsp;·&nbsp; <a href="../index.html">← Back to Home</a></p>
+</footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/maze.js"></script>
+</body>
+</html>

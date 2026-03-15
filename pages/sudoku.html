@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Solver — AI Game Playground</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar" id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <div class="nav-logo-icon">⬡</div>
+    AI<span>Lab</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../index.html#games">Games</a></li>
+    <li><a href="../index.html#about">About</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="theme-toggle">☀️</button>
+  </div>
+</nav>
+
+<main class="page-content">
+
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span class="sep">/</span>
+      <a href="../index.html#games">Games</a>
+      <span class="sep">/</span>
+      <span class="current">Sudoku Solver</span>
+    </div>
+    <h1 class="page-title">Sudoku <span>Solver</span></h1>
+    <p class="page-tagline">Backtracking Search — Watch the algorithm explore, place, and backtrack</p>
+  </div>
+
+  <div class="game-layout">
+
+    <!-- MAIN PANEL -->
+    <div class="game-panel fade-in-up">
+      <div class="game-panel-header">
+        <div class="game-panel-title">
+          Sudoku Grid
+          <span>9×9 · Backtracking Algorithm</span>
+        </div>
+        <span class="badge badge-blue">Constraint Propagation</span>
+      </div>
+
+      <!-- STATUS -->
+      <div class="status-bar">
+        <div class="status-item">
+          <div class="status-dot active"></div>
+          Status:
+        </div>
+        <span class="status-value" id="sudoku-status">Ready to solve</span>
+        <div style="margin-left:auto;">
+          Fill: <span class="status-value" id="sudoku-filled">0/81</span>
+        </div>
+      </div>
+
+      <!-- PROGRESS BAR -->
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="fill-progress" style="width:0%"></div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="controls-row" style="flex-wrap:wrap;gap:0.5rem;">
+        <button class="btn btn-primary btn-sm" id="btn-solve">▶ Solve</button>
+        <button class="btn btn-warning btn-sm" id="btn-stop">⏹ Stop</button>
+        <button class="btn btn-ghost btn-sm" id="btn-sample">◈ Load Puzzle</button>
+        <button class="btn btn-secondary btn-sm" id="btn-clear">✕ Clear</button>
+        <div class="speed-control">
+          <label>Speed:</label>
+          <input type="range" id="speed-slider" min="200" max="1000" value="500" style="width:80px;">
+          <span id="speed-label" style="font-size:0.72rem;color:var(--text-muted);">Normal</span>
+        </div>
+      </div>
+
+      <!-- GRID -->
+      <div id="sudoku-grid" class="sudoku-grid"></div>
+
+      <!-- LEGEND -->
+      <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1.5rem;font-size:0.75rem;color:var(--text-muted);">
+        <span style="display:flex;align-items:center;gap:5px;">
+          <span style="width:14px;height:14px;border-radius:3px;background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.3);display:inline-block;"></span>
+          Given cells
+        </span>
+        <span style="display:flex;align-items:center;gap:5px;">
+          <span style="width:14px;height:14px;border-radius:3px;background:rgba(6,182,212,0.2);border:1px solid rgba(6,182,212,0.3);display:inline-block;"></span>
+          Currently testing
+        </span>
+        <span style="display:flex;align-items:center;gap:5px;">
+          <span style="width:14px;height:14px;border-radius:3px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);display:inline-block;"></span>
+          Backtracking
+        </span>
+      </div>
+
+      <!-- STATS -->
+      <div class="sudoku-stats">
+        <div class="stat-box">
+          <div class="val" id="sudoku-steps">0</div>
+          <div class="lbl">Steps</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="sudoku-backtracks">0</div>
+          <div class="lbl">Backtracks</div>
+        </div>
+        <div class="stat-box">
+          <div class="val" id="sudoku-filled">0/81</div>
+          <div class="lbl">Cells Filled</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDE PANEL -->
+    <div class="side-panel">
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">↩️</span> Backtracking Search</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p>Backtracking is a systematic search that <strong>incrementally builds candidates</strong> and abandons them ("backtracks") as soon as a constraint is violated.</p>
+          <p>For Sudoku: try placing 1–9 in each empty cell. If placing a number violates any constraint (row/col/box), immediately try the next number.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">📋</span> Algorithm Steps</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <ol class="algo-steps">
+            <li>Find the next empty cell (index scan)</li>
+            <li>Try digits 1 through 9 in that cell</li>
+            <li>Check: is digit valid in this row, column, and 3×3 box?</li>
+            <li>If valid: place digit and recurse to next empty cell</li>
+            <li>If recursion returns false: erase digit (backtrack)</li>
+            <li>If all digits fail: return false (propagate backtrack)</li>
+            <li>If no empty cells remain: puzzle is solved!</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">⏱</span> Complexity</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <div class="complexity-row">
+            <span class="complexity-label">Worst case</span>
+            <span class="complexity-value">O(9^81)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Typical (pruned)</span>
+            <span class="complexity-value">Much less</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Space</span>
+            <span class="complexity-value">O(81)</span>
+          </div>
+          <div class="complexity-row">
+            <span class="complexity-label">Constraints checked</span>
+            <span class="complexity-value">Row · Col · Box</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="info-card-title"><span class="icon">🎮</span> How to Use</div>
+          <div class="info-card-toggle">▾</div>
+        </div>
+        <div class="info-card-body">
+          <p><strong>Load Puzzle</strong> cycles through Easy, Medium, and Hard presets. Or click cells to type your own puzzle.</p>
+          <p><strong>Speed slider</strong> controls animation speed — drag left to slow down and see each step clearly.</p>
+          <p>Purple cells are <em>given</em> (locked). Blue = algorithm testing. Red = backtracking.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>AI Game Playground &nbsp;·&nbsp; <a href="../index.html">← Back to Home</a></p>
+</footer>
+
+<script src="../js/main.js"></script>
+<script src="../js/sudoku.js"></script>
+</body>
+</html>

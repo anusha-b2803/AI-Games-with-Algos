@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Game Playground — Interactive Algorithm Lab</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">⬡</div>
+      AI<span>Lab</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">⌂ Home</a></li>
+      <li><a href="#games">◈ Games</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" title="Toggle theme">☀️</button>
+    </div>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="page-content">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <!-- Simplified Hero Background -->
+
+      <div class="hero-badge">
+        <span>Interactive AI Algorithm Visualizer</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="line1">Explore Artificial</span>
+        <span class="line2">Intelligence Algorithms</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Hands-on games powered by classical AI — watch <strong>Minimax</strong>,
+        <strong>A*</strong>, and <strong>Backtracking</strong> algorithms think in real time.
+        Built for learners, visualized for everyone.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#games" class="btn btn-primary btn-lg">
+          ▶ Launch a Game
+        </a>
+        <a href="pages/about.html" class="btn btn-secondary btn-lg">
+          ◈ Learn More
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value" data-counter="4">0</div>
+          <div class="stat-label">AI Games</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" data-counter="4">0</div>
+          <div class="stat-label">Algorithms</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" data-counter="100">0</div>
+          <div class="stat-label">% Client-Side</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" data-counter="0">0</div>
+          <div class="stat-label">Dependencies</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO CARD (Merged from About) -->
+    <section class="section" style="padding-bottom: 2rem; padding-top: 2rem;">
+      <div class="about-card" style="margin-bottom: 2rem;" data-animate>
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+          <div
+            style="width: 52px; height: 52px; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; box-shadow: var(--glow-cyan);">
+            ⬡</div>
+          <div>
+            <h2
+              style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; letter-spacing: -0.01em; color: var(--text-primary);">
+              AI Game Playground</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Interactive Artificial Intelligence
+              Algorithm Lab</p>
+          </div>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.9; margin-bottom: 1rem;">
+          This project demonstrates four classical AI algorithms through interactive browser-based games.
+          Each game lets you watch the algorithm <strong>think in real time</strong> — exploring states,
+          backtracking, and converging on solutions with full visualization.
+        </p>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.9;">
+          The entire project runs <strong>client-side with zero dependencies</strong> — no libraries, no backend,
+          no build tools. Pure HTML5, CSS3, and Vanilla JavaScript.
+        </p>
+      </div>
+    </section>
+
+    <!-- GAMES SECTION -->
+    <section class="section" id="games">
+      <div class="section-header">
+        <div class="section-tag">Games</div>
+        <h2 class="section-title">Choose Your <span>Challenge</span></h2>
+        <p class="section-desc">Four classic AI problems, each showcasing a different algorithmic paradigm. Click any
+          card to start playing.</p>
+      </div>
+
+      <div class="about-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; max-width: 800px; margin: 0 auto;">
+
+        <!-- TIC TAC TOE -->
+        <a href="game.html#tictactoe" class="about-card" style="text-decoration: none; display: block;" data-animate>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+            <span style="font-size: 1.5rem;">✕○</span>
+            <span class="badge badge-cyan">Minimax</span>
+          </div>
+          <h3
+            style="font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+            Tic Tac Toe AI</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+            Two modes: Player vs Player or Player vs AI.
+            The AI uses <strong>Minimax with Alpha-Beta Pruning</strong> and is completely unbeatable.
+            Watch node evaluations and tree depth update in real time.
+          </p>
+          <span class="card-launch"
+            style="font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase;">Launch
+            →</span>
+        </a>
+
+        <!-- SUDOKU -->
+        <a href="game.html#sudoku" class="about-card" style="text-decoration: none; display: block;" data-animate>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+            <span style="font-size: 1.5rem;">#</span>
+            <span class="badge badge-blue">Backtracking</span>
+          </div>
+          <h3
+            style="font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+            Sudoku Solver</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+            Fully editable 9×9 grid with 3 preset difficulty levels.
+            The <strong>backtracking solver</strong> animates every placement and backtrack step.
+            Blue cells = current attempt, red = backtracking.
+          </p>
+          <span class="card-launch"
+            style="font-size: 0.72rem; color: var(--accent-blue); font-weight: 700; text-transform: uppercase;">Launch
+            →</span>
+        </a>
+
+        <!-- MAZE -->
+        <a href="game.html#maze" class="about-card" style="text-decoration: none; display: block;" data-animate>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+            <span style="font-size: 1.5rem;">⊞</span>
+            <span class="badge badge-green">A* Search</span>
+          </div>
+          <h3
+            style="font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+            Maze Pathfinder</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+            Draw walls on a canvas grid, place start/end points, and watch <strong>A*</strong> explore
+            the maze. Color-coded open set and visited nodes. Random maze generator.
+          </p>
+          <span class="card-launch"
+            style="font-size: 0.72rem; color: var(--accent-green); font-weight: 700; text-transform: uppercase;">Launch
+            →</span>
+        </a>
+
+        <!-- N-QUEENS -->
+        <a href="game.html#nqueens" class="about-card" style="text-decoration: none; display: block;" data-animate>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+            <span style="font-size: 1.5rem;">♛</span>
+            <span class="badge badge-purple">Backtracking</span>
+          </div>
+          <h3
+            style="font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+            N-Queens Solver</h3>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+            Configurable from 4 to 12 queens. <strong>Animated backtracking</strong> shows queen
+            placements, conflict detection (red queens), and removals.
+          </p>
+          <span class="card-launch"
+            style="font-size: 0.72rem; color: var(--accent-purple); font-weight: 700; text-transform: uppercase;">Launch
+            →</span>
+        </a>
+
+      </div>
+    </section>
+
+
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>AI Game Playground &nbsp;·&nbsp; Built with ♥ by Anusha</p>
+    <p style="margin-top:0.5rem; font-size:0.7rem; color:var(--text-muted);">
+      Algorithms: Minimax · Alpha-Beta · Backtracking · A* Search
+    </p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>
