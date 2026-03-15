@@ -2,10 +2,9 @@
 
 An interactive, browser-based repository of classical **Artificial Intelligence Algorithms** modeled through hands-on games. Built with pure Vanilla JS, the playground helps learners visualize how state spaces are searched, backtracked, and optimized in real time.
 
----
 ## Deployed on Git Hub pages 
 
-Click here and view: 
+Click here and view: https://anusha-b2803.github.io/AI-Games-with-Algos/
 
 ## ⚡ Key Features
 
@@ -14,7 +13,6 @@ Click here and view:
 *   **Zero Dependencies**: Written using absolute Vanilla HTML5, CSS3, and JavaScript primitives.
 *   **Unified Dashboard View**: Tabbed layout for buttery smooth navigations switches cleanup workflows.
 
----
 
 ## 🧠 Solvers & Games
 
@@ -38,14 +36,12 @@ Click here and view:
 *   **Randomized Branch sweeps**: Solves unique valid placements layout configurations with each run visually.
 *   Supports cycle navigation on multiple discovered solution trees.
 
----
 
 ## 🛠️ Tech Stack
 *   **Structure**: Semantic HTML5
 *   **Style**: Responsive modular CSS3 
 *   **Logic**: Native ES6+ JavaScript 
 
----
 
 ## 🚀 Getting Started
 
@@ -56,5 +52,4 @@ Click here and view:
 2. Navigate into the folder and **Open `index.html`** in your standard browser. 
 3. *Alternatively*, use **Live Server** extensions in VS Code for live stream previews at `127.0.0.1`.
 
----
 *Built with ♥ by Anusha*
